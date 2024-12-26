@@ -3,6 +3,7 @@
     "name": "meetup-clone",
     "slug": "meetup-clone",
     "version": "1.0.0",
+    "newArchEnabled": true,
 
     "scheme": "meetup-clone",
     "web": {
