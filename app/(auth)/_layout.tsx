@@ -6,7 +6,7 @@ export default function AuthLayout() {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
-    return <Redirect href="/" />;
+    return <Redirect href="/" />; // Redirect to home if authenticated
   }
 
   return <Stack />;

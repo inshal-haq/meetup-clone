@@ -27,7 +27,7 @@ export default function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ session, user: session?.user, isAuthenticated: !!session?.user }}>
+      value={{ session, user: session?.user, isAuthenticated: Boolean(session?.user) }}>
       {children}
     </AuthContext.Provider>
   );
