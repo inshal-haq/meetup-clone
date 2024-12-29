@@ -53,6 +53,7 @@ export type Database = {
           id: number
           image_uri: string | null
           location: string | null
+          location_point: unknown | null
           title: string
           user_id: string | null
         }
@@ -63,6 +64,7 @@ export type Database = {
           id?: number
           image_uri?: string | null
           location?: string | null
+          location_point?: unknown | null
           title: string
           user_id?: string | null
         }
@@ -73,6 +75,7 @@ export type Database = {
           id?: number
           image_uri?: string | null
           location?: string | null
+          location_point?: unknown | null
           title?: string
           user_id?: string | null
         }
@@ -118,7 +121,25 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      nearby_events: {
+        Args: {
+          lat: number
+          long: number
+        }
+        Returns: {
+          id: number
+          created_at: string
+          title: string
+          description: string
+          date: string
+          location: string
+          image_uri: string
+          user_id: string
+          lat: number
+          long: number
+          dist_meters: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

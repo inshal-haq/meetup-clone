@@ -43,7 +43,9 @@ export default function EventListItem({ event }) {
         </View>
 
         <View className="flex-row gap-3">
-          <Text className="mr-auto text-gray-700">{numberOfAttendees} going</Text>
+          <Text className="mr-auto text-gray-700">
+            {numberOfAttendees} going · {Math.round(event.dist_meters / 1000)}km from you
+          </Text>
           <Ionicons name="share-outline" size={20} color="gray" />
           <Ionicons name="bookmark-outline" size={20} color="gray" />
         </View>

@@ -24,7 +24,14 @@ export default function EventCreateScreen() {
     const { data, error } = await supabase
       .from('events')
       .insert([
-        { title, description, date: date.toISOString(), user_id: user.id, image_uri: imageUrl },
+        {
+          title,
+          description,
+          date: date.toISOString(),
+          user_id: user.id,
+          image_uri: imageUrl,
+          location_point: 'POINT(-96.627569 33.108295)',
+        },
       ])
       .select()
       .single();
