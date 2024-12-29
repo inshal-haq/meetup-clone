@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { Link, Stack, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { View, Text, Image, Pressable, ActivityIndicator } from 'react-native';
 
@@ -68,6 +68,9 @@ export default function EventScreen() {
         {dayjs(event.date).format('ddd, D MMM')} • {dayjs(event.date).format('h:MM A')}
       </Text>
       <Text className="text-lg">{event.description}</Text>
+      <Link href={`/event/${event.id}/attendance`} className="text-lg">
+        View Attendance
+      </Link>
 
       {/* Footer */}
       <View className="absolute bottom-0 left-0 right-0 flex-row items-center justify-between border-t-2 border-gray-300 p-5 pb-10">

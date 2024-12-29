@@ -1,9 +1,27 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 
+import { supabase } from '~/utils/supabase';
+
 export default function EventListItem({ event }) {
+  const [numberOfAttendees, setNumberOfAttendees] = useState(0);
+
+  useEffect(() => {
+    fetchNumberOfAttendees();
+  }, [event.id]);
+
+  const fetchNumberOfAttendees = async () => {
+    const { count, error } = await supabase
+      .from('attendance')
+      .select('*', { count: 'exact', head: true })
+      .eq('event_id', event.id);
+
+    setNumberOfAttendees(count);
+  };
+
   return (
     <Link href={`/event/${event.id}`} asChild>
       <Pressable className="m-3 gap-3 border-b-2 border-gray-100 pb-3">
@@ -22,7 +40,7 @@ export default function EventListItem({ event }) {
         </View>
 
         <View className="flex-row gap-3">
-          <Text className="mr-auto text-gray-700">16 going</Text>
+          <Text className="mr-auto text-gray-700">{numberOfAttendees} going</Text>
           <Ionicons name="share-outline" size={20} color="gray" />
           <Ionicons name="bookmark-outline" size={20} color="gray" />
         </View>
