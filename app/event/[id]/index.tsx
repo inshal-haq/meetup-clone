@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
 import { Link, Stack, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { View, Text, Image, Pressable, ActivityIndicator } from 'react-native';
+import { View, Text, Pressable, ActivityIndicator } from 'react-native';
 
+import SupaImage from '~/components/SupaImage';
 import { useAuth } from '~/contexts/AuthProvider';
 import { Attendance, Event } from '~/types/db';
 import { supabase } from '~/utils/supabase';
@@ -61,7 +62,7 @@ export default function EventScreen() {
           headerTintColor: 'black',
         }}
       />
-      <Image source={{ uri: event.image_uri }} className="aspect-video w-full rounded-xl" />
+      <SupaImage path={event.image_uri} className="aspect-video w-full rounded-xl" />
       <Text className="text-3xl font-bold" numberOfLines={2}>
         {event.title}
       </Text>
