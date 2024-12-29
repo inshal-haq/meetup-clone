@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { View, Text, TextInput, Button, Pressable } from 'react-native';
+import { View, Text, TextInput, Pressable, Alert } from 'react-native';
 import DatePicker from 'react-native-date-picker';
+
 import { useAuth } from '~/contexts/AuthProvider';
 import { supabase } from '~/utils/supabase';
 
@@ -20,16 +21,23 @@ export default function EventCreateScreen() {
 
     const { data, error } = await supabase
       .from('events')
-      .insert([{ title, description, date, user_id: user.id }])
+      .insert([{ title, description, date: date.toISOString(), user_id: user.id }])
       .select()
       .single();
 
-    setTitle('');
-    setDescription('');
-    setDate(new Date());
+    if (error) {
+      Alert.alert('Error', error.message);
+      return;
+    } else {
+      setTitle('');
+      setDescription('');
+      setDate(new Date());
+      console.log(data);
+
+      router.push('/');
+    }
 
     setLoading(false);
-    router.push('/');
   };
   return (
     <View className="flex-1 gap-3 bg-white p-5 pt-10">
