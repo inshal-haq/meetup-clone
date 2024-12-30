@@ -69,6 +69,7 @@ export default function EventScreen() {
       <Text className="text-lg font-semibold uppercase text-amber-800">
         {dayjs(event.date).format('ddd, D MMM')} • {dayjs(event.date).format('h:MM A')}
       </Text>
+      <Text className="text-lg font-bold">{event.location}</Text>
       <Text className="text-lg">{event.description}</Text>
       <Link href={`/event/${event.id}/attendance`} className="text-lg">
         View Attendance

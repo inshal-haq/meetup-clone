@@ -1,7 +1,8 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { View, Text, TextInput, Pressable, Alert } from 'react-native';
+import { View, Text, TextInput, Pressable, Alert, ScrollView } from 'react-native';
 import DatePicker from 'react-native-date-picker';
+import AddressAutocomplete from '~/components/AddressAutocomplete';
 import Avatar from '~/components/Avatar';
 
 import { useAuth } from '~/contexts/AuthProvider';
@@ -15,11 +16,14 @@ export default function EventCreateScreen() {
   const [description, setDescription] = useState('');
   const [date, setDate] = useState(new Date());
   const [imageUrl, setImageUrl] = useState('');
-
+  const [location, setLocation] = useState(null);
   const { user } = useAuth();
 
   const createEvent = async () => {
     setLoading(true);
+
+    const long = location.features[0].properties.coordinates.longitude;
+    const lat = location.features[0].properties.coordinates.latitude;
 
     const { data, error } = await supabase
       .from('events')
@@ -30,7 +34,8 @@ export default function EventCreateScreen() {
           date: date.toISOString(),
           user_id: user.id,
           image_uri: imageUrl,
-          location_point: 'POINT(-96.627569 33.108295)',
+          location: location.features[0].properties.name,
+          location_point: `POINT(${long} ${lat})`,
         },
       ])
       .select()
@@ -43,7 +48,6 @@ export default function EventCreateScreen() {
       setTitle('');
       setDescription('');
       setDate(new Date());
-      console.log(data);
 
       router.push('/');
     }
@@ -51,7 +55,7 @@ export default function EventCreateScreen() {
     setLoading(false);
   };
   return (
-    <View className="flex-1 gap-3 bg-white p-5 pt-10">
+    <ScrollView className="flex-1" contentContainerClassName="gap-3 bg-white p-5 pt-10">
       <View className="items-center">
         <Avatar
           size={200}
@@ -95,6 +99,7 @@ export default function EventCreateScreen() {
           setOpen(false);
         }}
       />
+      <AddressAutocomplete onSelected={setLocation} />
 
       <Pressable
         onPress={() => createEvent()}
@@ -102,6 +107,6 @@ export default function EventCreateScreen() {
         className="mt-auto items-center rounded-md bg-red-400 p-5 px-8">
         <Text className="text-lg font-bold text-white">Create Event</Text>
       </Pressable>
-    </View>
+    </ScrollView>
   );
 }
